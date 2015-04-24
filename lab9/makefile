@@ -1,8 +1,10 @@
 CFLAGS = -Wall -g
 
-driver: tries.o driver.o
+btree: btree.o driver.o
 
 clean:
 	rm -f *.o
-	rm driver
-	rm output.txt
+	rm -f driver
+	rm -f sanitize
+	rm -f output.txt
+	rm -f btree
