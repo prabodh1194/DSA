@@ -9,15 +9,16 @@ int main(int argc, char *argv[])
 	t = atoi(argv[2]);
 	FILE *fp;
 	fp = fopen(argv[1],"r");
-	btree b;
-	allocate(&b);
+	btree *b;
+	b = (btree *)malloc(sizeof(btree));
+	allocate(b);
 	while(!feof(fp))
 	{
 		fscanf(fp,"%d",&key);
-		btreeInsert(&b,key);
+		btreeInsert(b,key);
 	}
 	
-	treetraverse(b);
+	treetraverse(*b);
 
 	return 0;
 }
