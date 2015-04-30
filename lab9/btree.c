@@ -10,28 +10,28 @@ void allocate(btree *b)
 	b->c = malloc(sizeof(btree *)*(2*t));
 }
 
-void btreeInsert(btree *b,int key)
+void btreeInsert(btree **b,int key)
 {
-	btree r;
-	if(b->n == 2*t-1)
+	if(*b->n == 2*t-1)
 	{
 		btree *s;
 		s = (btree *)malloc(sizeof(btree));
 		allocate(s);
 		s->leaf = 0;
 		s->c[0] = b;
-		btreeSplit(s,1);
+		*b = s;
+		btreeSplit(&s,1);
 		btreeInsertNonfull(s,key);
 	}
 	else
 		btreeInsertNonfull(b,key);
 }
 
-void btreeSplit(btree *b,int i)
+void btreeSplit(btree **b,int i)
 {
 	int j;
 	btree *z,*y;
-	y = b->c[i-1];
+	y = (*b)->c[i-1];
 	z = (btree *)malloc(sizeof(btree));
 	allocate(z);
 	z->leaf = y->leaf;
@@ -45,14 +45,14 @@ void btreeSplit(btree *b,int i)
 	}
 	y->n=t-1;
 	b->c[i]=z;
-	for(j=b->n;j>=i;j--)
-		b->c[j+1] = b->c[j];
-	for(j=b->n-1;j>=i-1;j--)
-		b->keys[j+1] = b->keys[j];
-	b->keys[i-1] = y->keys[t-1];
-	b->n+=1;
+	for(j=*b->n;j>=i;j--)
+		*b->c[j+1] = b->c[j];
+	for(j=*b->n-1;j>=i-1;j--)
+		*b->keys[j+1] = *b->keys[j];
+	*b->keys[i-1] = y->keys[t-1];
+	*b->n+=1;
 }
-void btreeInsertNonfull(btree *b,int key)
+void btreeInsertNonfull(btree **b,int key)
 {
 	int i;
 	i = b->n-1;

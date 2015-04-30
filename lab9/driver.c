@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "btree.h"
+#include <stdlib.h>
 
 void treetraverse(btree b);
 
@@ -25,7 +26,7 @@ int main(int argc, char *argv[])
 
 void treetraverse(btree b)
 {
-	int k,i,j;
+	int k,i;
 	k=b.n;
 	for(i=0;i<k;i++)
 	{
